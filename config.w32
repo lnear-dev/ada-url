@@ -1,0 +1,26 @@
+ARG_ENABLE("ada_url", "whether to enable ada_url support", "no");
+
+if (PHP_ADA_URL != "no") {
+    // Require C++ support
+    PHP_REQUIRE_CXX();
+
+    // Add library
+    ADD_FLAG("LDFLAGS", "/LIBPATH:stdc++");
+    ADD_FLAG("CXXFLAGS", "/std:c++17");
+
+    // Add headers
+    PHP_INSTALL_HEADERS("ext/ada_url", [
+        "ada_url.h",
+        "ada.h",
+        "ada_c.h"
+    ]);
+
+    // Define HAVE_PHP_ADA_URL
+    AC_DEFINE("HAVE_PHP_ADA_URL", 1, "Have ada_url support");
+
+    // Add extension
+    EXTENSION("ada_url", "ada_url.cpp ada.cpp", null, "shared");
+
+    // Add include directory
+    ADD_FLAG("INCLUDES", "$(PHP_SRC_DIR)/ext/ada_url");
+}
