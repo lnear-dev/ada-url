@@ -1,6 +1,6 @@
-# PHP URL Manipulation Library
+# PHP Ada URL Library
 
-This PHP library provides utilities for parsing, manipulating, and working with URLs, including support for enums, URL components, search parameters, and more.
+This is ada_url, a fast standard-compliant PHP library for working with URLs based on the Ada URL parser.
 
 ## Enumerations
 
@@ -186,13 +186,7 @@ class URL {
 
 ## Installation
 
-To use this library in your project, you can install it via pecl:
-
-```bash
-pecl install ada_url
-```
-
-Alternatively, you can clone the repository and build the extension manually:
+To use this library in your project, you can clone the repository and build the extension manually:
 
 ```bash
 git clone https://github.com/lnear-dev/ada-url
