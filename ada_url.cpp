@@ -167,19 +167,6 @@ struct URLSearchParams {
         return &url_search_params->std;
     }
     static URLSearchParams *New(zend_class_entry *ce) { return Fetch(Create(ce)); }
-    static zval *GetParams(zend_object *obj) {
-        zval *params = OBJ_PROP_NUM(obj, 0);
-        if (Z_ISUNDEF_P(params)) {
-            zend_throw_error(
-                NULL,
-                "Typed property PhpToken::$id must not be accessed before initialization");
-            return NULL;
-        }
-        ZVAL_DEREF(params);
-        ZEND_ASSERT(Z_TYPE_P(params) == IS_ARRAY);
-        return params;
-    }
-    static zval *GetParams(zval *obj) { return GetParams(Z_OBJ_P(obj)); }
     static inline void Register() {
         URLSearchParams_ce = register_class_URLSearchParams();
         URLSearchParams_ce->default_object_handlers = &URLSearchParams_object_handlers;
