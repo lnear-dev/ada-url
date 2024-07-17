@@ -6,7 +6,7 @@
 extern zend_module_entry ada_url_module_entry;
 # define phpext_ada_url_ptr &ada_url_module_entry
 
-# define PHP_ADA_URL_VERSION "0.1.0"
+# define PHP_ADA_URL_VERSION "0.2.0"
 
 # if defined(ZTS) && defined(COMPILE_DL_ADA_URL)
 ZEND_TSRMLS_CACHE_EXTERN()

@@ -2,6 +2,25 @@
 
 This is ada_url, a fast standard-compliant PHP library for working with URLs based on the Ada URL parser.
 
+## Installation
+
+To use this library in your project, you can clone the repository and build the extension manually:
+
+```bash
+git clone https://github.com/lnear-dev/ada-url
+cd ada-url
+phpize
+./configure
+make
+make install
+```
+
+Then, add the following line to your `php.ini` file:
+
+```ini
+extension=ada_url.so
+```
+
 ## Enumerations
 
 ### HostType
@@ -182,25 +201,6 @@ class URL {
     public static function idnaToUnicode(string $input): string {}
     public static function idnaToAscii(string $input): string {}
 }
-```
-
-## Installation
-
-To use this library in your project, you can clone the repository and build the extension manually:
-
-```bash
-git clone https://github.com/lnear-dev/ada-url
-cd ada-url
-phpize
-./configure
-make
-make install
-```
-
-Then, add the following line to your `php.ini` file:
-
-```ini
-extension=ada_url.so
 ```
 
 ## License
