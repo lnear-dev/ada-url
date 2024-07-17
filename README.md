@@ -65,7 +65,7 @@ Example:
 
 ```php
 $url = "https://example.com/path/to/resource";
-$parsedUrl = URL::parse($url);
+$parsedUrl = AdaURL\URL::parse($url);
 if ($parsedUrl) {
     echo "Protocol: " . $parsedUrl->getProtocol() . "\n";
     echo "Host: " . $parsedUrl->getHost() . "\n";
@@ -81,7 +81,7 @@ Example:
 ```php
 $url = "/path/to/resource";
 $base = "https://example.com";
-$parsedUrl = URL::parseWithBase($url, $base);
+$parsedUrl = AdaURL\URL::parseWithBase($url, $base);
 if ($parsedUrl) {
     echo "Full URL: " . $parsedUrl->getHref() . "\n";
 }
@@ -95,7 +95,7 @@ Example:
 
 ```php
 $input = "xn--fsqu00a.xn--fsqu00a";
-$unicodeDomain = URL::idnaToUnicode($input);
+$unicodeDomain = AdaURL\URL::idnaToUnicode($input);
 echo "Unicode Domain: " . $unicodeDomain . "\n";
 ```
 
@@ -108,7 +108,7 @@ Represents a URL and provides methods for manipulation.
 Example:
 
 ```php
-$url = URL::parse("https://example.com/path/to/resource");
+$url = AdaURL\URL::parse("https://example.com/path/to/resource");
 echo "Protocol: " . $url->getProtocol() . "\n";
 echo "Hostname: " . $url->getHostname() . "\n";
 echo "Path: " . $url->getPathname() . "\n";
@@ -121,7 +121,7 @@ Provides methods to work with URL search parameters.
 Example:
 
 ```php
-$searchParams = new URLSearchParams();
+$searchParams = new AdaURL\URLSearchParams();
 $searchParams->append("key", "value1");
 $searchParams->append("key", "value2");
 
