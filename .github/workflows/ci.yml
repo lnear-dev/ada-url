@@ -32,6 +32,7 @@ jobs:
         phpize
         ./configure
         make
+        make install
 
     - name: Benchmark
       run: php bench.php
