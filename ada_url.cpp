@@ -12,7 +12,6 @@ extern "C" {
 #include <zend_enum.h>
 #undef try
 #include <zend_API.h>
-#include "zend.h"
 #include "zend_types.h"
 #include "zend_interfaces.h"
 #include "zend_exceptions.h"
