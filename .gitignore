@@ -43,3 +43,5 @@ tmp-php.ini
 compile_commands.json
 .cache
 .vscode
+config.h.in~
+configure~

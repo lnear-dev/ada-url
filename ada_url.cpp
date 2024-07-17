@@ -18,6 +18,7 @@ extern "C" {
 #include "php_ada_url.h"
 #include "ada_url_arginfo.h"
 }
+#include "ada.h"
 // clang-format on
 /* For compatibility with older PHP versions */
 #ifndef ZEND_PARSE_PARAMETERS_NONE
@@ -201,7 +202,6 @@ struct URL {
     }
     static HashTable *GetPropertiesFor(zend_object *object, zend_prop_purpose purpose) /* {{{ */
     {
-
         switch (purpose) {
             case ZEND_PROP_PURPOSE_DEBUG:
             case ZEND_PROP_PURPOSE_SERIALIZE:
@@ -479,7 +479,7 @@ ZEND_METHOD(URLSearchParams, entries) {
 extern "C" zend_module_entry ada_url_module_entry = {
     STANDARD_MODULE_HEADER,
     "ada_url", /* Extension name */
-    nullptr,       /* zend_function_entry */
+    nullptr,   /* zend_function_entry */
     [](int type, int module_number) {
 #if defined(ZTS) && defined(COMPILE_DL_PHP_ADA_URL)
         ZEND_TSRMLS_CACHE_UPDATE();
@@ -496,9 +496,11 @@ extern "C" zend_module_entry ada_url_module_entry = {
     [](zend_module_entry *zend_module) {
         php_info_print_table_start();
         php_info_print_table_row(2, "ada_url support", "enabled");
+        php_info_print_table_row(2, "ada_url version", PHP_ADA_URL_VERSION);
+        php_info_print_table_row(2, "ada version", ADA_VERSION);
         php_info_print_table_row(2, "author", "lnear <hi@lnear.dev>");
         php_info_print_table_end();
-    },                       /* PHP_MINFO - Module info */
+    },                   /* PHP_MINFO - Module info */
     PHP_ADA_URL_VERSION, /* Version */
     STANDARD_MODULE_PROPERTIES};
 /* }}} */
