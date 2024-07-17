@@ -1,0 +1,48 @@
+name: PHP Extension CI
+
+on:
+  push:
+    branches: [CI]
+  pull_request:
+    branches: [CI]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ["8.3", "8.4"]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y  build-essential autoconf automake php-dev
+
+      - name: Build PHP extension
+        run: |
+          phpize
+          ./configure
+          make
+
+      - name: Run tests
+        run: make test TESTS="-q --show-diff"
+
+      - name: Install PHP extension
+        run: |
+          sudo make install
+          echo "extension=ada_url.so" | sudo tee -a /etc/php/${{ matrix.php-version }}/cli/conf.d/20-ada_url.ini
+
+      - name: Verify extension installation
+        run: php -m | grep ada_url
+
+      - name: Run benchmark script
+        run: php bench.php
