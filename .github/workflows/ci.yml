@@ -2,40 +2,50 @@ name: PHP Extension CI
 
 on:
   push:
-    branches: [ CI ]
+    branches: [CI]
   pull_request:
-    branches: [ CI ]
+    branches: [CI]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.3', '8.4']
+        php-version: ["8.3", "8.4"]
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-version }}
-        coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y  build-essential autoconf automake php-dev
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y  build-essential autoconf automake php-dev
 
-    - name: Build PHP extension
-      run: |
-        phpize
-        ./configure
-        make
-        make install
+      - name: Build PHP extension
+        run: |
+          phpize
+          ./configure
+          make
 
-    - name: Benchmark
-      run: php bench.php
+      - name: Benchmark
+        run: php bench.php
 
-    - name: Run tests
-      run: make test TESTS="-q --show-diff"
+      - name: Run tests
+        run: make test TESTS="-q --show-diff"
+
+      - name: Install PHP extension
+        run: |
+          sudo make install
+          echo "extension=$(basename `pwd`).so" | sudo tee -a /etc/php/${{ matrix.php-version }}/cli/conf.d/20-custom-extension.ini
+
+      - name: Verify extension installation
+        run: php -m | grep $(basename `pwd`)
+
+      - name: Run benchmark script
+        run: php bench.php
