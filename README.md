@@ -15,6 +15,18 @@ make
 make install
 ```
 
+Or install a specific version from `release`:
+
+```bash
+wget "https://github.com/lnear-dev/ada-url/archive/refs/tags/1.0.0.tar.gz"
+tar -xvf 1.0.0.tar.gz
+cd ada-url-1.0.0
+phpize
+./configure
+make
+make install
+```
+
 Then, add the following line to your `php.ini` file:
 
 ```ini
@@ -139,7 +151,7 @@ enum SchemeType : int {
 }
 
 
-class URLSearchParams implements \Countable {
+class URLSearchParams implements  \ArrayAccess, \Countable {
     public function __construct(string $init = "") {}
     public function __toString(): string {}
     public final function get(string $key): ?string {}
@@ -152,6 +164,11 @@ class URLSearchParams implements \Countable {
     public final function keys(): array {}
     public final function values(): array {}
     public final function entries(): array {}
+
+    public function offsetExists(mixed $offset): bool {}
+    public function offsetGet(mixed $offset): mixed {}
+    public function offsetSet(mixed $offset, mixed $value): void {}
+    public function offsetUnset(mixed $offset): void {}
     public function count(): int {}
 
 }
@@ -203,7 +220,6 @@ class URL {
     public static function idnaToUnicode(string $input): string {}
     public static function idnaToAscii(string $input): string {}
 }
-
 ```
 
 ## License

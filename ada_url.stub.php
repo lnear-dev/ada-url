@@ -24,7 +24,7 @@ enum SchemeType : int {
 }
 
 
-class URLSearchParams implements \Countable {
+class URLSearchParams implements  \ArrayAccess, \Countable {
     public function __construct(string $init = "") {}
     public function __toString(): string {}
     public final function get(string $key): ?string {}
@@ -37,6 +37,11 @@ class URLSearchParams implements \Countable {
     public final function keys(): array {}
     public final function values(): array {}
     public final function entries(): array {}
+
+    public function offsetExists(mixed $offset): bool {}
+    public function offsetGet(mixed $offset): mixed {}
+    public function offsetSet(mixed $offset, mixed $value): void {}
+    public function offsetUnset(mixed $offset): void {}
     public function count(): int {}
 
 }

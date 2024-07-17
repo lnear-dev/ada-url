@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 659d4b1e6a3a7b48cbcd4624f16fac34d7d1a07f */
+ * Stub hash: 12d0721a889024db8f04acc4d5e1f0737da0b63d */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_AdaURL_URLSearchParams___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, init, IS_STRING, 0, "\"\"")
@@ -40,6 +40,23 @@ ZEND_END_ARG_INFO()
 #define arginfo_class_AdaURL_URLSearchParams_values arginfo_class_AdaURL_URLSearchParams_keys
 
 #define arginfo_class_AdaURL_URLSearchParams_entries arginfo_class_AdaURL_URLSearchParams_keys
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_AdaURL_URLSearchParams_offsetExists, 0, 1, _IS_BOOL, 0)
+	ZEND_ARG_TYPE_INFO(0, offset, IS_MIXED, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_AdaURL_URLSearchParams_offsetGet, 0, 1, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, offset, IS_MIXED, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_AdaURL_URLSearchParams_offsetSet, 0, 2, IS_VOID, 0)
+	ZEND_ARG_TYPE_INFO(0, offset, IS_MIXED, 0)
+	ZEND_ARG_TYPE_INFO(0, value, IS_MIXED, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_AdaURL_URLSearchParams_offsetUnset, 0, 1, IS_VOID, 0)
+	ZEND_ARG_TYPE_INFO(0, offset, IS_MIXED, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_AdaURL_URLSearchParams_count, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -183,6 +200,10 @@ ZEND_METHOD(AdaURL_URLSearchParams, delete);
 ZEND_METHOD(AdaURL_URLSearchParams, keys);
 ZEND_METHOD(AdaURL_URLSearchParams, values);
 ZEND_METHOD(AdaURL_URLSearchParams, entries);
+ZEND_METHOD(AdaURL_URLSearchParams, offsetExists);
+ZEND_METHOD(AdaURL_URLSearchParams, offsetGet);
+ZEND_METHOD(AdaURL_URLSearchParams, offsetSet);
+ZEND_METHOD(AdaURL_URLSearchParams, offsetUnset);
 ZEND_METHOD(AdaURL_URLSearchParams, count);
 ZEND_METHOD(AdaURL_URL, __construct);
 ZEND_METHOD(AdaURL_URL, __toString);
@@ -250,6 +271,10 @@ static const zend_function_entry class_AdaURL_URLSearchParams_methods[] = {
 	ZEND_ME(AdaURL_URLSearchParams, keys, arginfo_class_AdaURL_URLSearchParams_keys, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	ZEND_ME(AdaURL_URLSearchParams, values, arginfo_class_AdaURL_URLSearchParams_values, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	ZEND_ME(AdaURL_URLSearchParams, entries, arginfo_class_AdaURL_URLSearchParams_entries, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	ZEND_ME(AdaURL_URLSearchParams, offsetExists, arginfo_class_AdaURL_URLSearchParams_offsetExists, ZEND_ACC_PUBLIC)
+	ZEND_ME(AdaURL_URLSearchParams, offsetGet, arginfo_class_AdaURL_URLSearchParams_offsetGet, ZEND_ACC_PUBLIC)
+	ZEND_ME(AdaURL_URLSearchParams, offsetSet, arginfo_class_AdaURL_URLSearchParams_offsetSet, ZEND_ACC_PUBLIC)
+	ZEND_ME(AdaURL_URLSearchParams, offsetUnset, arginfo_class_AdaURL_URLSearchParams_offsetUnset, ZEND_ACC_PUBLIC)
 	ZEND_ME(AdaURL_URLSearchParams, count, arginfo_class_AdaURL_URLSearchParams_count, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };
@@ -356,13 +381,13 @@ static zend_class_entry *register_class_AdaURL_SchemeType(void)
 	return class_entry;
 }
 
-static zend_class_entry *register_class_AdaURL_URLSearchParams(zend_class_entry *class_entry_Countable)
+static zend_class_entry *register_class_AdaURL_URLSearchParams(zend_class_entry *class_entry_ArrayAccess, zend_class_entry *class_entry_Countable)
 {
 	zend_class_entry ce, *class_entry;
 
 	INIT_NS_CLASS_ENTRY(ce, "AdaURL", "URLSearchParams", class_AdaURL_URLSearchParams_methods);
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
-	zend_class_implements(class_entry, 1, class_entry_Countable);
+	zend_class_implements(class_entry, 2, class_entry_ArrayAccess, class_entry_Countable);
 
 	return class_entry;
 }

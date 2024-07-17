@@ -240,8 +240,9 @@ struct URLSearchParams {
     }
     static inline void Register() {
         URLSearchParams_ce = register_class_AdaURL_URLSearchParams(
-            // zend_ce_arrayaccess,
-            zend_ce_countable);
+            zend_ce_arrayaccess,
+            zend_ce_countable
+            );
         URLSearchParams_ce->default_object_handlers = &URLSearchParams_object_handlers;
         URLSearchParams_ce->create_object = Create;
         memcpy(&URLSearchParams_object_handlers,
@@ -526,12 +527,6 @@ ZEND_METHOD(AdaURL_URLSearchParams, values) {
     }
     ada_free_search_params_values_iter(iter);
 }
-ZEND_METHOD(AdaURL_URLSearchParams, count) {
-    if (zend_parse_parameters_none() == FAILURE) RETURN_THROWS();
-    zend_long count;
-    URLSearchParams::Count(Z_OBJ_P(ZEND_THIS), &count);
-    RETURN_LONG(count);
-}
 ZEND_METHOD(AdaURL_URLSearchParams, entries) {
     ZEND_PARSE_PARAMETERS_NONE();
     URLSearchParams *url_search_params = URLSearchParams::Fetch(ZEND_THIS);
@@ -549,6 +544,48 @@ ZEND_METHOD(AdaURL_URLSearchParams, entries) {
         add_next_index_zval(return_value, &zentry);
     }
     ada_free_search_params_entries_iter(iter);
+}
+ZEND_METHOD(AdaURL_URLSearchParams, count) {
+    if (zend_parse_parameters_none() == FAILURE) RETURN_THROWS();
+    zend_long count;
+    URLSearchParams::Count(Z_OBJ_P(ZEND_THIS), &count);
+    RETURN_LONG(count);
+}
+ZEND_METHOD(AdaURL_URLSearchParams, offsetExists) {
+    zval *offset;
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ZVAL(offset)
+    ZEND_PARSE_PARAMETERS_END();
+    RETURN_BOOL(URLSearchParams::HasDimension(Z_OBJ_P(ZEND_THIS), offset, 0));
+}
+
+ZEND_METHOD(AdaURL_URLSearchParams, offsetGet) {
+    zval *offset;
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ZVAL(offset)
+    ZEND_PARSE_PARAMETERS_END();
+    zval rv;
+    URLSearchParams::ReadDimension(Z_OBJ_P(ZEND_THIS), offset, BP_VAR_R, &rv);
+    RETURN_ZVAL(&rv, 1, 0);
+}
+ZEND_METHOD(AdaURL_URLSearchParams, offsetSet) {
+    zval *offset, *value;
+    ZEND_PARSE_PARAMETERS_START(2, 2)
+    Z_PARAM_ZVAL(offset)
+    Z_PARAM_ZVAL(value)
+    ZEND_PARSE_PARAMETERS_END();
+    URLSearchParams::WriteDimension(Z_OBJ_P(ZEND_THIS), offset, value);
+}
+ZEND_METHOD(AdaURL_URLSearchParams, offsetUnset) {
+    zval *offset;
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+    Z_PARAM_ZVAL(offset)
+    ZEND_PARSE_PARAMETERS_END();
+    URLSearchParams::UnsetDimension(Z_OBJ_P(ZEND_THIS), offset);
+}
+ZEND_METHOD(AdaURL_URLSearchParams, getIterator) {
+    ZEND_PARSE_PARAMETERS_NONE();
+    RETURN_OBJ(&URLSearchParams::Fetch(ZEND_THIS)->std);
 }
 #undef PHP_ADA_URL_HAS_METHOD
 #undef PHP_ADA_URL_CLEAR_METHOD
