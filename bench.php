@@ -1,5 +1,5 @@
 <?php
-use AdaUrl\URL;
+use AdaURL\URL;
 
 function benchmark($function, $iterations = 100000) {
     $start = microtime(true);

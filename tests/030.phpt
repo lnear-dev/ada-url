@@ -4,7 +4,7 @@ URLSearchParams Class - get Method
 Test if the get method correctly retrieves the value for a given key.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("key1=value1&key2=value2");
 echo $params->get("key1");
 ?>

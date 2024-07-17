@@ -4,7 +4,7 @@ URLSearchParams Class - get Method for Non-Existent Key
 Test if the get method returns null for a non-existent key.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("key1=value1&key2=value2");
 var_dump($params->get("key3"));
 ?>

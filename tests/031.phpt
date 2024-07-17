@@ -4,7 +4,7 @@ URLSearchParams Class - getAll Method
 Test if the getAll method correctly retrieves all values for a given key.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("key1=value1&key1=value2");
 var_dump($params->getAll("key1"));
 ?>

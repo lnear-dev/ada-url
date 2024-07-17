@@ -4,7 +4,7 @@ URL Class - setHref and getHref Methods
 Test if the setHref and getHref methods correctly set and get the href property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 $url->setHref("https://example.org");
 echo $url->getHref();

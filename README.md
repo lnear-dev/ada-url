@@ -120,7 +120,7 @@ echo "Values for 'key': " . implode(", ", $searchParams->getAll("key")) . "\n";
 ## API
 
 ```php
-
+namespace AdaURL;
 enum HostType : int {
     case DEFAULT = 0;
     case IPV4 = 1;

@@ -4,7 +4,7 @@ URL Class - clearHash Method
 Test if the clearHash method correctly clears the hash property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com#anchor");
 $url->clearHash();
 echo $url->getHash();

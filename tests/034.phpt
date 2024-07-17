@@ -4,7 +4,7 @@ URLSearchParams Class - set Method
 Test if the set method correctly sets the value for a key, replacing existing values.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("key1=value1&key1=value2");
 $params->set("key1", "newvalue");
 echo $params;

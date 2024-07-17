@@ -4,7 +4,7 @@ URL Class - setHost and getHost Methods
 Test if the setHost and getHost methods correctly set and get the host property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 $url->setHost("example.org");
 echo $url->getHost();

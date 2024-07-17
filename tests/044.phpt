@@ -4,7 +4,7 @@ URLSearchParams Class - Multiple Methods
 Test the combined functionality of multiple methods.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("key1=value1&key2=value2");
 $params->append("key2", "value3");
 $params->set("key3", "value4");

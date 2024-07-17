@@ -4,7 +4,7 @@ URLSearchParams Class - entries Method
 Test if the entries method correctly returns all the key-value pairs.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("key1=value1&key2=value2");
 var_dump($params->entries());
 ?>

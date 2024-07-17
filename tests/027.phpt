@@ -4,7 +4,7 @@ URL Class - Static Method idnaToUnicode
 Test if the idnaToUnicode static method correctly converts IDNA to Unicode.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 echo URL::idnaToUnicode("xn--fsq");
 ?>
 --EXPECT--

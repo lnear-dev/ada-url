@@ -4,7 +4,7 @@ URL Class - setSearch and getSearch Methods
 Test if the setSearch and getSearch methods correctly set and get the search property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 $url->setSearch("arg=value");
 echo $url->getSearch();

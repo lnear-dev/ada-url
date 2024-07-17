@@ -4,7 +4,7 @@ URL Class - clearPort Method
 Test if the clearPort method correctly clears the port property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com:8080");
 $url->clearPort();
 echo $url->getPort();

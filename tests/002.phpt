@@ -4,7 +4,7 @@ URL Class - Constructor and String Representation
 Test if the URL class constructs correctly and converts to string.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 var_dump((string)$url);
 ?>

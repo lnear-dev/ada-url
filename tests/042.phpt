@@ -4,7 +4,7 @@ URLSearchParams Class - Constructor with Empty String
 Test if the URLSearchParams class constructs correctly with an empty string.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $params = new URLSearchParams("");
 echo $params;
 ?>

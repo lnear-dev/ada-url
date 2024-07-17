@@ -4,7 +4,7 @@ URL Class - setProtocol and getProtocol Methods
 Test if the setProtocol and getProtocol methods correctly set and get the protocol property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 $url->setProtocol("http");
 echo $url->getProtocol();

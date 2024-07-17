@@ -4,7 +4,7 @@ URL Class - setPassword and getPassword Methods
 Test if the setPassword and getPassword methods correctly set and get the password property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 $url->setPassword("pass");
 echo $url->getPassword();

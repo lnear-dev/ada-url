@@ -4,9 +4,9 @@ URL Class - getHostType Method
 Test if the getHostType method returns the correct host type.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com");
 var_dump($url->getHostType());
 ?>
 --EXPECT--
-enum(AdaUrl\HostType::DEFAULT)
+enum(AdaURL\HostType::DEFAULT)

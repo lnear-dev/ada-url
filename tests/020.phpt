@@ -4,7 +4,7 @@ URL Class - clearSearch Method
 Test if the clearSearch method correctly clears the search property.
 --FILE--
 <?php
-namespace AdaUrl;
+namespace AdaURL;
 $url = URL::parse("https://example.com?arg=value");
 $url->clearSearch();
 echo $url->getSearch();
