@@ -39,10 +39,10 @@ jobs:
       - name: Install PHP extension
         run: |
           sudo make install
-          echo "extension=$(basename `pwd`).so" | sudo tee -a /etc/php/${{ matrix.php-version }}/cli/conf.d/20-custom-extension.ini
+          echo "extension=ada_url.so" | sudo tee -a /etc/php/${{ matrix.php-version }}/cli/conf.d/20-ada_url.ini
 
       - name: Verify extension installation
-        run: php -m | grep $(basename `pwd`)
+        run: php -m | grep ada_url
 
       - name: Run benchmark script
         run: php bench.php
