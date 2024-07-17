@@ -13,6 +13,7 @@ extern "C" {
 #undef try
 #include <zend_API.h>
 #include "zend_types.h"
+#include "zend_interfaces.h"
 #include "zend_exceptions.h"
 #include "ada_c.h"
 #include "php_ada_url.h"
@@ -118,28 +119,28 @@ struct SchemeType {
     X(Pathname, pathname)
 #define XXX_METHOD_NAME(action, name) ada_##action##_##name
 #define PHP_ADA_URL_HAS_METHOD(name, m)                                                            \
-    ZEND_METHOD(AdaURL_URL, has##name) {                                                                  \
+    ZEND_METHOD(AdaURL_URL, has##name) {                                                           \
         ZEND_PARSE_PARAMETERS_NONE();                                                              \
         RETURN_BOOL(XXX_METHOD_NAME(has, m)(URL::Fetch(ZEND_THIS)->data_));                        \
     }
 #define PHP_ADA_URL_CLEAR_METHOD(name, m)                                                          \
-    ZEND_METHOD(AdaURL_URL, clear##name) {                                                                \
+    ZEND_METHOD(AdaURL_URL, clear##name) {                                                         \
         ZEND_PARSE_PARAMETERS_NONE();                                                              \
         XXX_METHOD_NAME(clear, m)(URL::Fetch(ZEND_THIS)->data_);                                   \
     }
 #define PHP_ADA_URL_SETTER_METHOD(name, m)                                                         \
-    ZEND_METHOD(AdaURL_URL, set##name) {                                                                  \
+    ZEND_METHOD(AdaURL_URL, set##name) {                                                           \
         DECLARE_AND_PARSE_ONE_STRING_PARAM(value);                                                 \
         RETURN_BOOL(XXX_METHOD_NAME(set, m)(URL::Fetch(ZEND_THIS)->data_, value, value_length));   \
     }
 #define PHP_ADA_URL_SETTER_METHOD_VOID(name, m)                                                    \
-    ZEND_METHOD(AdaURL_URL, set##name) {                                                                  \
+    ZEND_METHOD(AdaURL_URL, set##name) {                                                           \
         DECLARE_AND_PARSE_ONE_STRING_PARAM(value);                                                 \
         XXX_METHOD_NAME(set, m)                                                                    \
         (URL::Fetch(ZEND_THIS)->data_, value, value_length);                                       \
     }
 #define PHP_ADA_URL_GETTER_METHOD(name, m)                                                         \
-    ZEND_METHOD(AdaURL_URL, get##name) {                                                                  \
+    ZEND_METHOD(AdaURL_URL, get##name) {                                                           \
         ZEND_PARSE_PARAMETERS_NONE();                                                              \
         ada_string r = XXX_METHOD_NAME(get, m)(URL::Fetch(ZEND_THIS)->data_);                      \
         zend_string *result = zend_string_init(r.data, r.length, 0);                               \
@@ -167,9 +168,80 @@ struct URLSearchParams {
         url_search_params->data_ = nullptr;
         return &url_search_params->std;
     }
+    static zend_result Count(zend_object *object, zend_long *count) {
+        *count = ada_search_params_size(Fetch(object)->data_);
+        return SUCCESS;
+    }
+    static int HasDimension(zend_object *object, zval *member, int check_empty) {
+        if (Z_TYPE_P(member) == IS_STRING) {
+            return ada_search_params_has(Fetch(object)->data_,
+                                         Z_STRVAL_P(member),
+                                         Z_STRLEN_P(member));
+        }
+        return 0;
+    }
+    static void UnsetDimension(zend_object *object, zval *offset) {
+        if (Z_TYPE_P(offset) == IS_STRING) {
+            ada_search_params_remove(Fetch(object)->data_, Z_STRVAL_P(offset), Z_STRLEN_P(offset));
+        }
+    }
+    static void WriteDimension(zend_object *object, zval *offset, zval *value) {
+        if (Z_TYPE_P(offset) == IS_STRING && Z_TYPE_P(value) == IS_STRING) {
+            ada_search_params_set(Fetch(object)->data_,
+                                  Z_STRVAL_P(offset),
+                                  Z_STRLEN_P(offset),
+                                  Z_STRVAL_P(value),
+                                  Z_STRLEN_P(value));
+        }
+    }
+    static zval *ReadDimension(zend_object *object, zval *offset, int type, zval *rv) {
+        if (Z_TYPE_P(offset) == IS_STRING) {
+            ada_string r =
+                ada_search_params_get(Fetch(object)->data_, Z_STRVAL_P(offset), Z_STRLEN_P(offset));
+            if (r.data == nullptr) {
+                ZVAL_NULL(rv);
+            } else {
+                ZVAL_STRINGL(rv, r.data, r.length);
+            }
+            return rv;
+        }
+        return nullptr;
+    }
+    static HashTable *GetPropertiesFor(zend_object *object, zend_prop_purpose purpose) {
+        switch (purpose) {
+            case ZEND_PROP_PURPOSE_DEBUG:
+            case ZEND_PROP_PURPOSE_SERIALIZE:
+            case ZEND_PROP_PURPOSE_VAR_EXPORT:
+            case ZEND_PROP_PURPOSE_JSON:
+            case ZEND_PROP_PURPOSE_ARRAY_CAST: break;
+            default: return zend_std_get_properties_for(object, purpose);
+        }
+        auto url_search_params = Fetch(object);
+        auto props = zend_array_dup(zend_std_get_properties(object));
+#define _____(X)                                                                                   \
+    zval zv_##X;                                                                                   \
+    ada_string X = ada_search_params_get(url_search_params->data_, #X, sizeof(#X) - 1);            \
+    ZVAL_STRINGL(&zv_##X, X.data, X.length);                                                       \
+    zend_hash_str_update(props, #X, sizeof(#X) - 1, &zv_##X);
+        X_ADA_URL_PROPS(_____);
+#undef _____
+        return props;
+    }
     static URLSearchParams *New(zend_class_entry *ce) { return Fetch(Create(ce)); }
+    static zend_object *Clone(zend_object *object) {
+        URLSearchParams *url_search_params = Fetch(object);
+        URLSearchParams *new_url_search_params = New(URLSearchParams_ce);
+        // clone data manually
+        auto search_data = ada_search_params_to_string(url_search_params->data_);
+        new_url_search_params->data_ =
+            ada_parse_search_params(search_data.data, search_data.length);
+        ada_free_owned_string(search_data);
+        return &new_url_search_params->std;
+    }
     static inline void Register() {
-        URLSearchParams_ce = register_class_AdaURL_URLSearchParams();
+        URLSearchParams_ce = register_class_AdaURL_URLSearchParams(
+            // zend_ce_arrayaccess,
+            zend_ce_countable);
         URLSearchParams_ce->default_object_handlers = &URLSearchParams_object_handlers;
         URLSearchParams_ce->create_object = Create;
         memcpy(&URLSearchParams_object_handlers,
@@ -177,7 +249,13 @@ struct URLSearchParams {
                sizeof(zend_object_handlers));
         URLSearchParams_object_handlers.offset = XtOffsetOf(URLSearchParams, std);
         URLSearchParams_object_handlers.free_obj = Free;
-        URLSearchParams_object_handlers.clone_obj = nullptr;
+        URLSearchParams_object_handlers.count_elements = Count;
+        URLSearchParams_object_handlers.clone_obj = Clone;
+        URLSearchParams_object_handlers.has_dimension = HasDimension;
+        URLSearchParams_object_handlers.write_dimension = WriteDimension;
+        URLSearchParams_object_handlers.read_dimension = ReadDimension;
+        URLSearchParams_object_handlers.unset_dimension = UnsetDimension;
+        URLSearchParams_object_handlers.get_properties_for = GetPropertiesFor;
     }
 };
 struct URL {
@@ -200,8 +278,7 @@ struct URL {
         URL_object_handlers.clone_obj = nullptr;
         URL_object_handlers.get_properties_for = GetPropertiesFor;
     }
-    static HashTable *GetPropertiesFor(zend_object *object, zend_prop_purpose purpose) /* {{{ */
-    {
+    static HashTable *GetPropertiesFor(zend_object *object, zend_prop_purpose purpose) {
         switch (purpose) {
             case ZEND_PROP_PURPOSE_DEBUG:
             case ZEND_PROP_PURPOSE_SERIALIZE:
@@ -220,7 +297,7 @@ struct URL {
         X_ADA_URL_PROPS(_____);
 #undef _____
         return props;
-    } /* }}} */
+    }
     static void Free(zend_object *object) {
         URL *url = Fetch(object);
         if (url->data_ != nullptr) { ada_free(url->data_); }
@@ -449,6 +526,12 @@ ZEND_METHOD(AdaURL_URLSearchParams, values) {
     }
     ada_free_search_params_values_iter(iter);
 }
+ZEND_METHOD(AdaURL_URLSearchParams, count) {
+    if (zend_parse_parameters_none() == FAILURE) RETURN_THROWS();
+    zend_long count;
+    URLSearchParams::Count(Z_OBJ_P(ZEND_THIS), &count);
+    RETURN_LONG(count);
+}
 ZEND_METHOD(AdaURL_URLSearchParams, entries) {
     ZEND_PARSE_PARAMETERS_NONE();
     URLSearchParams *url_search_params = URLSearchParams::Fetch(ZEND_THIS);
@@ -503,7 +586,6 @@ extern "C" zend_module_entry ada_url_module_entry = {
     },                   /* PHP_MINFO - Module info */
     PHP_ADA_URL_VERSION, /* Version */
     STANDARD_MODULE_PROPERTIES};
-/* }}} */
 #ifdef COMPILE_DL_ADA_URL
 #ifdef ZTS
 ZEND_TSRMLS_CACHE_DEFINE()

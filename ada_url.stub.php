@@ -23,8 +23,8 @@ enum SchemeType : int {
     case FILE = 6;
 }
 
-    
-class URLSearchParams {
+
+class URLSearchParams implements \Countable {
     public function __construct(string $init = "") {}
     public function __toString(): string {}
     public final function get(string $key): ?string {}
@@ -37,6 +37,8 @@ class URLSearchParams {
     public final function keys(): array {}
     public final function values(): array {}
     public final function entries(): array {}
+    public function count(): int {}
+
 }
 
 class URL {

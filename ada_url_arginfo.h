@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 422f3806f764069690df147ea6128919d4842973 */
+ * Stub hash: 659d4b1e6a3a7b48cbcd4624f16fac34d7d1a07f */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_AdaURL_URLSearchParams___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, init, IS_STRING, 0, "\"\"")
@@ -40,6 +40,9 @@ ZEND_END_ARG_INFO()
 #define arginfo_class_AdaURL_URLSearchParams_values arginfo_class_AdaURL_URLSearchParams_keys
 
 #define arginfo_class_AdaURL_URLSearchParams_entries arginfo_class_AdaURL_URLSearchParams_keys
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_AdaURL_URLSearchParams_count, 0, 0, IS_LONG, 0)
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_AdaURL_URL___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, url, IS_STRING, 0, "\"\"")
@@ -180,6 +183,7 @@ ZEND_METHOD(AdaURL_URLSearchParams, delete);
 ZEND_METHOD(AdaURL_URLSearchParams, keys);
 ZEND_METHOD(AdaURL_URLSearchParams, values);
 ZEND_METHOD(AdaURL_URLSearchParams, entries);
+ZEND_METHOD(AdaURL_URLSearchParams, count);
 ZEND_METHOD(AdaURL_URL, __construct);
 ZEND_METHOD(AdaURL_URL, __toString);
 ZEND_METHOD(AdaURL_URL, hasCredentials);
@@ -246,6 +250,7 @@ static const zend_function_entry class_AdaURL_URLSearchParams_methods[] = {
 	ZEND_ME(AdaURL_URLSearchParams, keys, arginfo_class_AdaURL_URLSearchParams_keys, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	ZEND_ME(AdaURL_URLSearchParams, values, arginfo_class_AdaURL_URLSearchParams_values, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
 	ZEND_ME(AdaURL_URLSearchParams, entries, arginfo_class_AdaURL_URLSearchParams_entries, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	ZEND_ME(AdaURL_URLSearchParams, count, arginfo_class_AdaURL_URLSearchParams_count, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };
 
@@ -351,12 +356,13 @@ static zend_class_entry *register_class_AdaURL_SchemeType(void)
 	return class_entry;
 }
 
-static zend_class_entry *register_class_AdaURL_URLSearchParams(void)
+static zend_class_entry *register_class_AdaURL_URLSearchParams(zend_class_entry *class_entry_Countable)
 {
 	zend_class_entry ce, *class_entry;
 
 	INIT_NS_CLASS_ENTRY(ce, "AdaURL", "URLSearchParams", class_AdaURL_URLSearchParams_methods);
 	class_entry = zend_register_internal_class_ex(&ce, NULL);
+	zend_class_implements(class_entry, 1, class_entry_Countable);
 
 	return class_entry;
 }
