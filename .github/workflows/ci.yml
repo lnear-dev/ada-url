@@ -33,9 +33,6 @@ jobs:
           ./configure
           make
 
-      - name: Benchmark
-        run: php bench.php
-
       - name: Run tests
         run: make test TESTS="-q --show-diff"
 
