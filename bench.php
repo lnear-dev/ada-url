@@ -1,5 +1,5 @@
 <?php
-
+use AdaUrl\URL;
 
 function benchmark($function, $iterations = 100000) {
     $start = microtime(true);
@@ -23,15 +23,16 @@ $testUrls = [
     'https://www.example.com/' . str_repeat('path/', 100) . 'page?query=' . str_repeat('string&', 100) . 'key=value#' . str_repeat('fragment', 100),
     'http://user:pass@' . str_repeat('example.com:8080/', 100) . 'path?' . str_repeat('query=value&', 100),
     'ftp://' . str_repeat('ftp.example.com/', 100) . 'file.txt',
+
 ];
 
-$baseUrl = 'https://www.base-example.com/base/';
+$baseUrlPath = '/path/to/resource';
 
 echo "Benchmarking URL parsing methods:\n";
 echo "--------------------------------\n";
 
 foreach ($testUrls as $url) {
-    echo "Testing URL: $url\n";
+    echo "Testing URL:" . substr($url, 0, 50) . "...\n";
     
     $parseUrlTime = benchmark(function() use ($url) {
         parse_url($url);
@@ -43,8 +44,8 @@ foreach ($testUrls as $url) {
     });
     echo "URL::parse():             " . number_format($urlParseTime * 1000000, 2) . " µs\n";
     
-    $urlParseWithBaseTime = benchmark(function() use ($url, $baseUrl) {
-        URL::parseWithBase($url, $baseUrl);
+    $urlParseWithBaseTime = benchmark(function() use ($baseUrlPath, $url) {
+        URL::parseWithBase($baseUrlPath, $url);
     });
     echo "URL::parseWithBase():     " . number_format($urlParseWithBaseTime * 1000000, 2) . " µs\n";
     
@@ -53,8 +54,8 @@ foreach ($testUrls as $url) {
     });
     echo "URL::canParse():          " . number_format($urlCanParseTime * 1000000, 2) . " µs\n";
     
-    $urlCanParseWithBaseTime = benchmark(function() use ($url, $baseUrl) {
-        URL::canParseWithBase($url, $baseUrl);
+    $urlCanParseWithBaseTime = benchmark(function() use ($baseUrlPath, $url) {
+        URL::canParseWithBase($baseUrlPath, $url);
     });
     echo "URL::canParseWithBase():  " . number_format($urlCanParseWithBaseTime * 1000000, 2) . " µs\n";
     

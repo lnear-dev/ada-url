@@ -4,11 +4,12 @@ URL Class - Static Method parse
 Test if the parse static method correctly parses a URL.
 --FILE--
 <?php
+namespace AdaUrl;
 $url = URL::parse("https://example.com");
 var_dump($url);
 ?>
 --EXPECTF--
-object(URL)#%d (8) {
+object(AdaUrl\URL)#%d (8) {
   ["protocol"]=>
   string(6) "https:"
   ["username"]=>

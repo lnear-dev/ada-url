@@ -4,6 +4,7 @@ URL Class - hasCredentials Method
 Test if the hasCredentials method correctly identifies presence of credentials.
 --FILE--
 <?php
+namespace AdaUrl;
 $urlWithCredentials = URL::parse("https://user:pass@example.com");
 var_dump($urlWithCredentials->hasCredentials());
 

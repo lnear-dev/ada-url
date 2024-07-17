@@ -4,6 +4,7 @@ URLSearchParams Class - append Method with Existing Key
 Test if the append method correctly adds another value to an existing key.
 --FILE--
 <?php
+namespace AdaUrl;
 $params = new URLSearchParams("key1=value1");
 $params->append("key1", "value2");
 echo $params;

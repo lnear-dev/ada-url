@@ -4,8 +4,9 @@ URL Class - getSchemeType Method
 Test if the getSchemeType method returns the correct scheme type.
 --FILE--
 <?php
+namespace AdaUrl;
 $url = URL::parse("https://example.com");
 var_dump($url->getSchemeType());
 ?>
 --EXPECT--
-enum(SchemeType::HTTPS)
+enum(AdaUrl\SchemeType::HTTPS)

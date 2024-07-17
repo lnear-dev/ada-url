@@ -4,6 +4,7 @@ URL Class - hasHash Method
 Test if the hasHash method correctly identifies presence of hash fragment.
 --FILE--
 <?php
+namespace AdaUrl;
 $urlWithHash = URL::parse("https://example.com#anchor");
 var_dump($urlWithHash->hasHash());
 

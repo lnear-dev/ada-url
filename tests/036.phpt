@@ -4,6 +4,7 @@ URLSearchParams Class - delete Method
 Test if the delete method correctly removes the key-value pair.
 --FILE--
 <?php
+namespace AdaUrl;
 $params = new URLSearchParams("key1=value1&key2=value2");
 $params->delete("key1");
 echo $params;

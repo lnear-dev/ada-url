@@ -4,11 +4,12 @@ URL Class - Static Method parse with user, pass, port, path, arg, and anchor
 Test if the parse static method correctly parses a URL with user, pass, port, path, arg, and anchor.
 --FILE--
 <?php
+namespace AdaUrl;
 $url = URL::parse("https://user:pass@example.com:8080/path?arg=value#anchor");
 var_dump($url);
 ?>
 --EXPECTF--
-object(URL)#%d (8) {
+object(AdaUrl\URL)#%d (8) {
   ["protocol"]=>
   string(6) "https:"
   ["username"]=>

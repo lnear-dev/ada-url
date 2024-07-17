@@ -118,28 +118,28 @@ struct SchemeType {
     X(Pathname, pathname)
 #define XXX_METHOD_NAME(action, name) ada_##action##_##name
 #define PHP_ADA_URL_HAS_METHOD(name, m)                                                            \
-    ZEND_METHOD(URL, has##name) {                                                                  \
+    ZEND_METHOD(AdaUrl_URL, has##name) {                                                                  \
         ZEND_PARSE_PARAMETERS_NONE();                                                              \
         RETURN_BOOL(XXX_METHOD_NAME(has, m)(URL::Fetch(ZEND_THIS)->data_));                        \
     }
 #define PHP_ADA_URL_CLEAR_METHOD(name, m)                                                          \
-    ZEND_METHOD(URL, clear##name) {                                                                \
+    ZEND_METHOD(AdaUrl_URL, clear##name) {                                                                \
         ZEND_PARSE_PARAMETERS_NONE();                                                              \
         XXX_METHOD_NAME(clear, m)(URL::Fetch(ZEND_THIS)->data_);                                   \
     }
 #define PHP_ADA_URL_SETTER_METHOD(name, m)                                                         \
-    ZEND_METHOD(URL, set##name) {                                                                  \
+    ZEND_METHOD(AdaUrl_URL, set##name) {                                                                  \
         DECLARE_AND_PARSE_ONE_STRING_PARAM(value);                                                 \
         RETURN_BOOL(XXX_METHOD_NAME(set, m)(URL::Fetch(ZEND_THIS)->data_, value, value_length));   \
     }
 #define PHP_ADA_URL_SETTER_METHOD_VOID(name, m)                                                    \
-    ZEND_METHOD(URL, set##name) {                                                                  \
+    ZEND_METHOD(AdaUrl_URL, set##name) {                                                                  \
         DECLARE_AND_PARSE_ONE_STRING_PARAM(value);                                                 \
         XXX_METHOD_NAME(set, m)                                                                    \
         (URL::Fetch(ZEND_THIS)->data_, value, value_length);                                       \
     }
 #define PHP_ADA_URL_GETTER_METHOD(name, m)                                                         \
-    ZEND_METHOD(URL, get##name) {                                                                  \
+    ZEND_METHOD(AdaUrl_URL, get##name) {                                                                  \
         ZEND_PARSE_PARAMETERS_NONE();                                                              \
         ada_string r = XXX_METHOD_NAME(get, m)(URL::Fetch(ZEND_THIS)->data_);                      \
         zend_string *result = zend_string_init(r.data, r.length, 0);                               \
@@ -169,7 +169,7 @@ struct URLSearchParams {
     }
     static URLSearchParams *New(zend_class_entry *ce) { return Fetch(Create(ce)); }
     static inline void Register() {
-        URLSearchParams_ce = register_class_URLSearchParams();
+        URLSearchParams_ce = register_class_AdaUrl_URLSearchParams();
         URLSearchParams_ce->default_object_handlers = &URLSearchParams_object_handlers;
         URLSearchParams_ce->create_object = Create;
         memcpy(&URLSearchParams_object_handlers,
@@ -191,7 +191,7 @@ struct URL {
     static inline URL *Fetch(zval *zvp) { return Fetch(Z_OBJ_P(zvp)); }
     static URL *New(zend_class_entry *ce) { return Fetch(Create(ce)); }
     static inline void Register() {
-        URL_ce = register_class_URL();
+        URL_ce = register_class_AdaUrl_URL();
         URL_ce->create_object = Create;
         URL_ce->default_object_handlers = &URL_object_handlers;
         memcpy(&URL_object_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
@@ -248,7 +248,7 @@ X_ADA_URL_METHODS_HAS(PHP_ADA_URL_HAS_METHOD)
 X_ADA_URL_PROPS_CLEARABLE(PHP_ADA_URL_HAS_METHOD)
 X_ADA_URL_PROPS_CLEARABLE(PHP_ADA_URL_CLEAR_METHOD)
 X_ADA_URL_PROPS_GET_SETTABLE(PHP_ADA_URL_GETTER_SETTER_METHOD)
-ZEND_METHOD(URL, parse) {
+ZEND_METHOD(AdaUrl_URL, parse) {
     char *input, *base = nullptr;
     size_t input_length, base_length = 0;
     ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -267,7 +267,7 @@ ZEND_METHOD(URL, parse) {
     url_obj->data_ = url;
     RETURN_OBJ(&url_obj->std);
 }
-ZEND_METHOD(URL, parseWithBase) {
+ZEND_METHOD(AdaUrl_URL, parseWithBase) {
     char *input, *base;
     size_t input_length, base_length;
     ZEND_PARSE_PARAMETERS_START(2, 2)
@@ -280,29 +280,29 @@ ZEND_METHOD(URL, parseWithBase) {
     url_obj->data_ = url;
     RETURN_OBJ(&url_obj->std);
 }
-ZEND_METHOD(URL, canParse) {
+ZEND_METHOD(AdaUrl_URL, canParse) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(input);
     RETURN_BOOL(ada_can_parse(input, input_length));
 }
-ZEND_METHOD(URL, canParseWithBase) {
+ZEND_METHOD(AdaUrl_URL, canParseWithBase) {
     DECLARE_AND_PARSE_TWO_STRING_PARAMS(input, base);
     RETURN_BOOL(ada_can_parse_with_base(input, input_length, base, base_length));
 }
-ZEND_METHOD(URL, idnaToUnicode) {
+ZEND_METHOD(AdaUrl_URL, idnaToUnicode) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(input);
     ada_owned_string r = ada_idna_to_unicode(input, input_length);
     zend_string *result = zend_string_init(r.data, r.length, 0);
     ada_free_owned_string(r);
     RETURN_STR(result);
 }
-ZEND_METHOD(URL, idnaToAscii) {
+ZEND_METHOD(AdaUrl_URL, idnaToAscii) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(input);
     ada_owned_string r = ada_idna_to_ascii(input, input_length);
     zend_string *result = zend_string_init(r.data, r.length, 0);
     ada_free_owned_string(r);
     RETURN_STR(result);
 }
-ZEND_METHOD(URL, __construct) {
+ZEND_METHOD(AdaUrl_URL, __construct) {
     char *input, *base = nullptr;
     size_t input_length, base_length = 0;
     ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -322,27 +322,27 @@ ZEND_METHOD(URL, __construct) {
     }
     URL::Fetch(ZEND_THIS)->data_ = url;
 }
-ZEND_METHOD(URL, __toString) {
+ZEND_METHOD(AdaUrl_URL, __toString) {
     ada_string r = ada_get_href(URL::Fetch(ZEND_THIS)->data_);
     zend_string *result = zend_string_init(r.data, r.length, 0);
     RETURN_STR(result);
 }
-ZEND_METHOD(URL, getOrigin) {
+ZEND_METHOD(AdaUrl_URL, getOrigin) {
     ZEND_PARSE_PARAMETERS_NONE();
     ada_owned_string r = ada_get_origin(URL::Fetch(ZEND_THIS)->data_);
     zend_string *result = zend_string_init(r.data, r.length, 0);
     ada_free_owned_string(r);
     RETURN_STR(result);
 }
-ZEND_METHOD(URL, getHostType) {
+ZEND_METHOD(AdaUrl_URL, getHostType) {
     ZEND_PARSE_PARAMETERS_NONE();
     RETURN_OBJ_COPY(HostType::ToZval(ada_get_host_type(URL::Fetch(ZEND_THIS)->data_)));
 }
-ZEND_METHOD(URL, getSchemeType) {
+ZEND_METHOD(AdaUrl_URL, getSchemeType) {
     ZEND_PARSE_PARAMETERS_NONE();
     RETURN_OBJ_COPY(SchemeType::ToZval(ada_get_scheme_type(URL::Fetch(ZEND_THIS)->data_)));
 }
-ZEND_METHOD(URL, getSearchParams) {
+ZEND_METHOD(AdaUrl_URL, getSearchParams) {
     ZEND_PARSE_PARAMETERS_NONE();
     URL *url = URL::Fetch(ZEND_THIS);
     URLSearchParams *url_search_params = URLSearchParams::New(URLSearchParams_ce);
@@ -350,7 +350,7 @@ ZEND_METHOD(URL, getSearchParams) {
     url_search_params->data_ = ada_parse_search_params(search_data.data, search_data.length);
     RETURN_OBJ(&url_search_params->std);
 }
-ZEND_METHOD(URL, setSearchParams) {
+ZEND_METHOD(AdaUrl_URL, setSearchParams) {
     zval *url_search_params;
     ZEND_PARSE_PARAMETERS_START(1, 1)
     Z_PARAM_OBJECT_OF_CLASS(url_search_params, URLSearchParams_ce)
@@ -361,7 +361,7 @@ ZEND_METHOD(URL, setSearchParams) {
     ada_set_search(url->data_, search_data.data, search_data.length);
     ada_free_owned_string(search_data);
 }
-ZEND_METHOD(URLSearchParams, __construct) {
+ZEND_METHOD(AdaUrl_URLSearchParams, __construct) {
     // DECLARE_AND_PARSE_ONE_STRING_PARAM(input);
     char *input = nullptr;
     size_t input_length = 0;
@@ -371,13 +371,13 @@ ZEND_METHOD(URLSearchParams, __construct) {
     ZEND_PARSE_PARAMETERS_END();
     URLSearchParams::Fetch(ZEND_THIS)->data_ = ada_parse_search_params(input, input_length);
 }
-ZEND_METHOD(URLSearchParams, __toString) {
+ZEND_METHOD(AdaUrl_URLSearchParams, __toString) {
     ada_owned_string r = ada_search_params_to_string(URLSearchParams::Fetch(ZEND_THIS)->data_);
     zend_string *result = zend_string_init(r.data, r.length, 0);
     ada_free_owned_string(r);
     RETURN_STR(result);
 }
-ZEND_METHOD(URLSearchParams, get) {
+ZEND_METHOD(AdaUrl_URLSearchParams, get) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(key);
     URLSearchParams *url_search_params = URLSearchParams::Fetch(ZEND_THIS);
     ada_string r = ada_search_params_get(url_search_params->data_, key, key_length);
@@ -385,7 +385,7 @@ ZEND_METHOD(URLSearchParams, get) {
     zend_string *result = zend_string_init(r.data, r.length, 0);
     RETURN_STR(result);
 }
-ZEND_METHOD(URLSearchParams, getAll) {
+ZEND_METHOD(AdaUrl_URLSearchParams, getAll) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(key);
     URLSearchParams *url_search_params = URLSearchParams::Fetch(ZEND_THIS);
     ada_strings r = ada_search_params_get_all(url_search_params->data_, key, key_length);
@@ -397,11 +397,11 @@ ZEND_METHOD(URLSearchParams, getAll) {
         add_next_index_str(return_value, result);
     }
 }
-ZEND_METHOD(URLSearchParams, has) {
+ZEND_METHOD(AdaUrl_URLSearchParams, has) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(key);
     RETURN_BOOL(ada_search_params_has(URLSearchParams::Fetch(ZEND_THIS)->data_, key, key_length));
 }
-ZEND_METHOD(URLSearchParams, append) {
+ZEND_METHOD(AdaUrl_URLSearchParams, append) {
     DECLARE_AND_PARSE_TWO_STRING_PARAMS(key, value);
     ada_search_params_append(URLSearchParams::Fetch(ZEND_THIS)->data_,
                              key,
@@ -409,7 +409,7 @@ ZEND_METHOD(URLSearchParams, append) {
                              value,
                              value_length);
 }
-ZEND_METHOD(URLSearchParams, set) {
+ZEND_METHOD(AdaUrl_URLSearchParams, set) {
     DECLARE_AND_PARSE_TWO_STRING_PARAMS(key, value);
     ada_search_params_set(URLSearchParams::Fetch(ZEND_THIS)->data_,
                           key,
@@ -417,15 +417,15 @@ ZEND_METHOD(URLSearchParams, set) {
                           value,
                           value_length);
 }
-ZEND_METHOD(URLSearchParams, sort) {
+ZEND_METHOD(AdaUrl_URLSearchParams, sort) {
     ZEND_PARSE_PARAMETERS_NONE();
     ada_search_params_sort(URLSearchParams::Fetch(ZEND_THIS)->data_);
 }
-ZEND_METHOD(URLSearchParams, delete) {
+ZEND_METHOD(AdaUrl_URLSearchParams, delete) {
     DECLARE_AND_PARSE_ONE_STRING_PARAM(key);
     ada_search_params_remove(URLSearchParams::Fetch(ZEND_THIS)->data_, key, key_length);
 }
-ZEND_METHOD(URLSearchParams, keys) {
+ZEND_METHOD(AdaUrl_URLSearchParams, keys) {
     ZEND_PARSE_PARAMETERS_NONE();
     ada_url_search_params_keys_iter iter =
         ada_search_params_get_keys(URLSearchParams::Fetch(ZEND_THIS)->data_);
@@ -437,7 +437,7 @@ ZEND_METHOD(URLSearchParams, keys) {
     }
     ada_free_search_params_keys_iter(iter);
 }
-ZEND_METHOD(URLSearchParams, values) {
+ZEND_METHOD(AdaUrl_URLSearchParams, values) {
     ZEND_PARSE_PARAMETERS_NONE();
     URLSearchParams *url_search_params = URLSearchParams::Fetch(ZEND_THIS);
     ada_url_search_params_values_iter iter = ada_search_params_get_values(url_search_params->data_);
@@ -449,7 +449,7 @@ ZEND_METHOD(URLSearchParams, values) {
     }
     ada_free_search_params_values_iter(iter);
 }
-ZEND_METHOD(URLSearchParams, entries) {
+ZEND_METHOD(AdaUrl_URLSearchParams, entries) {
     ZEND_PARSE_PARAMETERS_NONE();
     URLSearchParams *url_search_params = URLSearchParams::Fetch(ZEND_THIS);
     ada_url_search_params_entries_iter iter =
@@ -484,8 +484,8 @@ extern "C" zend_module_entry ada_url_module_entry = {
 #if defined(ZTS) && defined(COMPILE_DL_PHP_ADA_URL)
         ZEND_TSRMLS_CACHE_UPDATE();
 #endif
-        HostType_ce = register_class_HostType();
-        SchemeType_ce = register_class_SchemeType();
+        HostType_ce = register_class_AdaUrl_HostType();
+        SchemeType_ce = register_class_AdaUrl_SchemeType();
         URL::Register();
         URLSearchParams::Register();
         return SUCCESS;

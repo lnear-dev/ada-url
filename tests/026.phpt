@@ -4,11 +4,12 @@ URL Class - Static Method parseWithBase
 Test if the parseWithBase static method correctly parses a URL with a base.
 --FILE--
 <?php
+namespace AdaUrl;
 $url = URL::parseWithBase("/path", "https://example.com");
 var_dump($url);
 ?>
 --EXPECTF--
-object(URL)#%d (8) {
+object(AdaUrl\URL)#%d (8) {
   ["protocol"]=>
   string(6) "https:"
   ["username"]=>

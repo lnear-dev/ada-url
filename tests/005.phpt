@@ -4,6 +4,7 @@ URL Class - setSearchParams and getSearchParams Methods
 Test if the setSearchParams and getSearchParams methods correctly set and get the search parameters.
 --FILE--
 <?php
+namespace AdaUrl;
 $searchParams = new URLSearchParams();
 $searchParams->append('key', 'value');
 $searchParams->append('key2', 'value2');

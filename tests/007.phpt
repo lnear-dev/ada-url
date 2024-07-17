@@ -4,6 +4,7 @@ URL Class - Static Methods canParse and canParseWithBase
 Test if the canParse and canParseWithBase static methods work correctly.
 --FILE--
 <?php
+namespace AdaUrl;
 var_dump(URL::canParse("https://example.com"));
 var_dump(URL::canParse("ht/tp://example.com"));
 

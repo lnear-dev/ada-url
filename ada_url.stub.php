@@ -5,7 +5,7 @@
  * @generate-function-entries
  * @undocumentable
  */
-
+namespace AdaUrl;
 enum HostType : int {
     case DEFAULT = 0;
     case IPV4 = 1;

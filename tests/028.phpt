@@ -4,6 +4,7 @@ URLSearchParams Class - Constructor and String Representation
 Test if the URLSearchParams class constructs correctly and converts to string.
 --FILE--
 <?php
+namespace AdaUrl;
 $params = new URLSearchParams("key1=value1&key2=value2&key3=value3");
 echo $params;
 ?>

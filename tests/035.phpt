@@ -4,6 +4,7 @@ URLSearchParams Class - sort Method
 Test if the sort method correctly sorts the parameters by key.
 --FILE--
 <?php
+namespace AdaUrl;
 $params = new URLSearchParams("key2=value2&key1=value1");
 $params->sort();
 echo $params;

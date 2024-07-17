@@ -4,6 +4,7 @@ URLSearchParams Class - values Method
 Test if the values method correctly returns all the values.
 --FILE--
 <?php
+namespace AdaUrl;
 $params = new URLSearchParams("key1=value1&key2=value2");
 var_dump($params->values());
 ?>
