@@ -583,10 +583,6 @@ ZEND_METHOD(AdaURL_URLSearchParams, offsetUnset) {
     ZEND_PARSE_PARAMETERS_END();
     URLSearchParams::UnsetDimension(Z_OBJ_P(ZEND_THIS), offset);
 }
-ZEND_METHOD(AdaURL_URLSearchParams, getIterator) {
-    ZEND_PARSE_PARAMETERS_NONE();
-    RETURN_OBJ(&URLSearchParams::Fetch(ZEND_THIS)->std);
-}
 #undef PHP_ADA_URL_HAS_METHOD
 #undef PHP_ADA_URL_CLEAR_METHOD
 #undef PHP_ADA_URL_GETTER_SETTER_METHOD
